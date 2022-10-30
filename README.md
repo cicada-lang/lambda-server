@@ -7,7 +7,7 @@ A serverless function that can run [**lambda**](https://github.com/cicada-lang/l
 Run a file:
 
 ```bash
-curl https://lambda.cic.run --data-binary @tests/evaluate.test.scm
+curl https://lambda.cic.run --data-binary @<file>
 ```
 
 Run multiline text (bash and zsh):
