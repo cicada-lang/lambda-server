@@ -1,31 +1,31 @@
-# Mugda Server
+# Lambda Server
 
-A serverless function that can run [**mugda**](https://github.com/cicada-lang/mugda) code.
+A serverless function that can run [**lambda**](https://github.com/cicada-lang/lambda) code.
 
 ## Usage
 
 Run a file:
 
 ```bash
-curl https://mu.cic.run --data-binary @tests/basic/let.test.mu
+curl https://lambda.cic.run --data-binary @tests/evaluate.test.scm
 ```
 
 Run multiline text (bash and zsh):
 
 ```bash
-curl https://mu.cic.run --data-binary @- << END
+curl https://lambda.cic.run --data-binary @- << END
 
-(data Nat () ()
-  [zero () Nat]
-  [add1 ([prev Nat]) Nat])
+(define zero (lambda (base step) base))
+(define (add1 n) (lambda (base step) (step (n base step))))
+(define (iter-Nat n base step) (n base step))
 
-(fn add (-> Nat Nat Nat)
-  [(x (zero)) x]
-  [(x (add1 y)) (add1 (add x y))])
+(define one (add1 zero))
+(define two (add1 one))
+(define three (add1 two))
 
-(define one Nat (add1 zero))
+(define (add m n) (iter-Nat m n add1))
 
-(add one one)
+(add two two)
 
 END
 ```
